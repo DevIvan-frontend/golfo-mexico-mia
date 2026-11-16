@@ -1,0 +1,21 @@
+# Despliegue en Render (https://render.com) como "Blueprint": New → Blueprint → elegir este repositorio.
+# Plan gratuito: la página se duerme tras 15 min sin visitas y la siguiente visita tarda ~1 min en despertar.
+# Los datos ya procesados (data/processed) van en el repositorio: el servidor no necesita el token de Earthdata.
+services:
+  - type: web
+    name: golfo-mexico-mia
+    runtime: python
+    plan: free
+    buildCommand: >-
+      pip install --upgrade pip &&
+      pip install -r requirements.txt &&
+      pip install "jupyterlite-core==0.6.*" "jupyterlite-pyodide-kernel==0.6.*" &&
+      (python scripts/build_jupyterlite.py || echo "JupyterLite omitido: la página funciona sin el cuaderno")
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --no-server-header
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: GOLFO_DATA_BACKEND
+        value: file

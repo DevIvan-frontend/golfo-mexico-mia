@@ -35,8 +35,16 @@ CABECERAS = {
 
 
 def ip_cliente(request: Request) -> str:
-    """IP real del visitante: Cloudflare la envía en CF-Connecting-IP; si no, la de la conexión."""
-    return request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "desconocida")
+    """IP real del visitante: Cloudflare la envía en CF-Connecting-IP; detrás de otros proxies (Render, Fly, Cloud
+    Run…) va primera en X-Forwarded-For; si no hay proxy, la de la conexión. Sin esto, todos los visitantes
+    compartirían el límite de peticiones del proxy."""
+    cf = request.headers.get("cf-connecting-ip")
+    if cf:
+        return cf
+    xff = request.headers.get("x-forwarded-for")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.client.host if request.client else "desconocida"
 
 
 class Protecciones(BaseHTTPMiddleware):

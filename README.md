@@ -112,6 +112,13 @@ python scripts/build_jupyterlite.py      # regenera notebooks/*.ipynb y jupyterl
   archivos, así que publicar `/jupyter` no permite ejecutar código en esta computadora. Pyodide y las librerías se
   descargan del CDN jsDelivr la primera vez (≈ 1 min); los cambios y resultados quedan solo en ese navegador.
 
+## Publicar en Render (enlace fijo, gratis)
+1. https://render.com → *Sign up with GitHub*.
+2. *New → Blueprint* → elegir este repositorio → *Apply*. Render lee `render.yaml`: instala `requirements.txt`, genera
+   Jupyter en el navegador y arranca `uvicorn` (≈ 10 min la primera vez).
+3. El enlace queda como `https://golfo-mexico-mia.onrender.com`. Cada `git push` a `main` vuelve a desplegar.
+- Plan gratuito: se duerme tras 15 min sin visitas; la siguiente visita tarda ~1 min. Usa ~200 MB de RAM (límite 512 MB).
+
 ## Publicar en internet desde esta computadora (túnel temporal de Cloudflare)
 ```bash
 uvicorn backend.main:app --host 127.0.0.1 --port 8000 --no-server-header
