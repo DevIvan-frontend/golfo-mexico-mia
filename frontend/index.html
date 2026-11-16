@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Golfo de México · Observatorio MIA</title>
+  <meta name="description" content="Mapa interactivo del Golfo de México: profundidad, temperatura, clorofila, biodiversidad y eventos naturales y humanos (2003–2024).">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230e6e8c'/%3E%3Cpath d='M4 19c4-3 8 3 12 0s8 3 12 0' stroke='white' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15"/><path d="M4 19c4-3 8 3 12 0s8 3 12 0"/><path d="M6 13c3-2 6 2 10 0s7 2 10 0" opacity=".55"/></svg>
+      <div>
+        <h1 data-i18n="title">Golfo de México · Observatorio MIA</h1>
+        <p data-i18n="subtitle"></p>
+      </div>
+    </div>
+    <div class="search">
+      <input id="search" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="search_placeholder" aria-label="Buscar / Search">
+      <div id="search-results" class="search-results hidden" role="listbox"></div>
+    </div>
+    <div class="top-actions">
+      <button type="button" id="btn-notebook" class="icon-btn nb-btn hidden" data-i18n-title="nb_title">📓 <span data-i18n="notebook"></span></button>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button type="button" id="btn-sidebar" class="icon-btn" data-i18n-title="tab_layers" aria-label="Menú">☰</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="sidebar">
+      <nav class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="layers" class="active" data-i18n="tab_layers"></button>
+        <button type="button" role="tab" data-tab="events" data-i18n="tab_events"></button>
+        <button type="button" role="tab" data-tab="guide" data-i18n="tab_guide"></button>
+      </nav>
+
+      <section class="tab-panel active" id="tab-layers">
+        <h3 data-i18n="variable"></h3>
+        <div id="var-list" class="var-list"></div>
+
+        <h3 data-i18n="selection"></h3>
+        <div class="seg" id="sel-mode">
+          <button type="button" data-mode="cell" class="active" data-i18n="sel_cell"></button>
+          <button type="button" data-mode="rect" data-i18n="sel_rect"></button>
+          <button type="button" data-mode="poly" data-i18n="sel_poly"></button>
+        </div>
+        <p class="hint" data-i18n="sel_hint"></p>
+
+        <h3 data-i18n="overlays"></h3>
+        <div id="overlay-list" class="check-list"></div>
+
+        <label class="range-row"><span data-i18n="opacity"></span><input type="range" id="opacity" min="0.1" max="1" step="0.05" value="0.85"></label>
+        <div class="check-list" style="margin-top:10px"><label><input type="checkbox" id="autoscale"> <span data-i18n="autoscale"></span></label></div>
+        <p class="hint" data-i18n="autoscale_hint"></p>
+
+        <h3 data-i18n="basemap"></h3>
+        <select id="basemap" class="select"></select>
+      </section>
+
+      <section class="tab-panel" id="tab-events">
+        <input id="ev-q" type="search" class="input" autocomplete="off" data-i18n-placeholder="ev_search_placeholder">
+        <div class="seg" id="ev-filter">
+          <button type="button" data-f="all" class="active" data-i18n="filter_all"></button>
+          <button type="button" data-f="natural" data-i18n="filter_natural"></button>
+          <button type="button" data-f="human" data-i18n="filter_human"></button>
+        </div>
+        <select id="ev-cat" class="select" style="margin-top:8px"></select>
+        <div class="row2">
+          <label><span data-i18n="ev_from"></span> <select id="ev-from" class="select small"></select></label>
+          <label><span data-i18n="ev_to"></span> <select id="ev-to" class="select small"></select></label>
+        </div>
+        <div class="check-list"><label><input type="checkbox" id="ev-only-active"> <span data-i18n="ev_only_active"></span></label></div>
+        <p class="hint" id="ev-count"></p>
+        <div class="active-box"><strong data-i18n="events_in_window"></strong><div id="ev-active"></div></div>
+        <ol id="ev-list" class="ev-list"></ol>
+      </section>
+
+      <section class="tab-panel guide" id="tab-guide">
+        <h3 data-i18n="guide_title"></h3>
+        <ol>
+          <li data-i18n="guide_1"></li><li data-i18n="guide_2"></li><li data-i18n="guide_3"></li>
+          <li data-i18n="guide_4"></li><li data-i18n="guide_5"></li><li data-i18n="guide_sar"></li><li data-i18n="guide_slicks"></li>
+        </ol>
+        <p class="note" data-i18n="disclaimer"></p>
+        <h3 data-i18n="sources_title"></h3>
+        <ul class="sources">
+          <li data-i18n="src_sst"></li><li data-i18n="src_chl"></li><li data-i18n="src_depth"></li>
+          <li data-i18n="src_obis"></li><li data-i18n="src_events"></li><li data-i18n="src_gibs"></li><li data-i18n="src_sar"></li>
+        </ul>
+        <p class="hint" data-i18n="data_res"></p>
+        <p class="hint" id="manifest-info"></p>
+      </section>
+    </aside>
+
+    <main id="map-wrap">
+      <div id="map" aria-label="Mapa del Golfo de México"></div>
+      <div id="legend" class="card legend"></div>
+      <div id="readout" class="card readout"></div>
+      <section id="popup" class="card popup hidden" aria-live="polite"></section>
+      <div id="toast" class="toast hidden" role="status"></div>
+    </main>
+  </div>
+
+  <footer class="timeline">
+    <div class="tl-controls">
+      <button type="button" id="tl-back" class="icon-btn" data-i18n-title="step_back">⏮</button>
+      <button type="button" id="tl-play" class="play-btn" data-i18n-title="play">▶</button>
+      <button type="button" id="tl-fwd" class="icon-btn" data-i18n-title="step_fwd">⏭</button>
+      <select id="tl-speed" class="select small" data-i18n-title="speed">
+        <option value="1400">0.5×</option><option value="700" selected>1×</option><option value="350">2×</option><option value="180">4×</option>
+      </select>
+    </div>
+    <div class="tl-track">
+      <div id="tl-ticks" class="tl-ticks"></div>
+      <input type="range" id="tl-slider" min="0" max="0" step="1" value="0" aria-label="Mes">
+      <div id="tl-years" class="tl-years"></div>
+    </div>
+    <div id="tl-label" class="tl-label">—</div>
+  </footer>
+
+  <!-- Cuaderno de Jupyter (JupyterLite: Python en el navegador) · js/notebook.js -->
+  <section id="nb-panel" class="nb-panel hidden" aria-label="Jupyter">
+    <header class="nb-head">
+      <div class="nb-title"><h2 data-i18n="nb_title"></h2><p id="nb-sub"></p></div>
+      <p class="nb-hint" data-i18n="nb_hint"></p>
+      <div class="nb-actions">
+        <button type="button" id="nb-general" class="btn ghost" data-i18n="nb_general"></button>
+        <a id="nb-download" class="btn ghost" href="#" data-i18n-title="nb_download_hint">⤓ .ipynb</a>
+        <a id="nb-newtab" class="icon-btn" href="#" target="_blank" rel="noopener" data-i18n-title="nb_newtab">↗</a>
+        <button type="button" id="nb-close" class="icon-btn" data-i18n-title="close">✕</button>
+      </div>
+    </header>
+    <iframe id="nb-frame" title="Jupyter" allow="clipboard-read; clipboard-write"></iframe>
+  </section>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <header class="modal-head">
+        <div><h2 id="modal-title"></h2><p id="modal-sub"></p></div>
+        <button type="button" class="icon-btn" id="modal-close" data-i18n-title="close">✕</button>
+      </header>
+      <nav class="tabs modal-tabs" id="modal-tabs"></nav>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

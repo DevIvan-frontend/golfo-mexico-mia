@@ -1,0 +1,34 @@
+{
+  "generado_utc": "2026-11-14T22:42:36+00:00",
+  "bbox": {
+    "west": -98.0,
+    "south": 18.0,
+    "east": -80.0,
+    "north": 31.0
+  },
+  "resolucion_grados": 0.25,
+  "resolucion_batimetria_grados": 0.08333333333333333,
+  "meses": [
+    "2003-01",
+    "2024-12"
+  ],
+  "servidores_erddap": [
+    "https://coastwatch.pfeg.noaa.gov/erddap",
+    "https://upwell.pfeg.noaa.gov/erddap"
+  ],
+  "fuentes": {
+    "sst": "NASA JPL MUR SST v4.1, compuesto mensual (0.01°)",
+    "chl": "NASA MODIS-Aqua clorofila-a L3 mensual R2022 (4 km)",
+    "depth": "NOAA ETOPO1 Global Relief Model (etopo180)",
+    "obis": "OBIS API v3 /occurrence/grid/3"
+  },
+  "conjuntos_erddap_usados": {
+    "sst": [
+      "jplMURSST41mday"
+    ],
+    "chl": [
+      "erdMH1chlamday_R2022SQ"
+    ]
+  },
+  "metodo": "Muestreo ERDDAP con salto (stride) y media por celda de 0.25°; solo agua conectada al océano."
+}

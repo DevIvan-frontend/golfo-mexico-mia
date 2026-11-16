@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+data/raw/
+data/cache/
+data/*.sqlite
+.venv/
+notebooks/resultados/
+.jupyterlite.doit.*
+.earthdata_token
+# generado por scripts/build_jupyterlite.py
+jupyterlite/
