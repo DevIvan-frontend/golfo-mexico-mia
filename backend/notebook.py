@@ -94,6 +94,8 @@ CELDAS = [
 
         > Coincidir en el tiempo no implica causalidad: los cruces con eventos sirven para plantear hipótesis, no para
         > atribuir impactos.
+
+        **Uso de IA:** Se usó IA generativa (Claude Code) como herramienta para generar código y enlazar recursos.
         """, """
         # Gulf of Mexico · EIA Observatory — analysis notebook
 
@@ -111,6 +113,8 @@ CELDAS = [
         run takes about a minute because it downloads Python (Pyodide) and the libraries.
 
         > Coinciding in time does not imply causation: overlaps with events help build hypotheses, not attribute impacts.
+
+        **AI usage:** Generative AI (Claude Code) was used as a tool to generate code and link resources.
         """),
     _md("""
         ## 1. Parámetros
@@ -1171,6 +1175,10 @@ def construir_cuaderno(lang: str = "es", seleccion: str | None = None, mes: str 
             "kernelspec": KERNELS.get(destino, KERNELS["local"]),
             "language_info": {"name": "python", "pygments_lexer": "ipython3"},
             "title": "Golfo de México · Observatorio MIA" if lang == "es" else "Gulf of Mexico · EIA Observatory",
+            "ai_assistance": ("Se usó IA generativa (Claude Code) como herramienta para generar código y enlazar recursos."
+                              if lang == "es" else
+                              "Generative AI (Claude Code) was used as a tool to generate code and link resources."),
+            "license": "MIT",
         },
         "nbformat": 4,
         "nbformat_minor": 5,

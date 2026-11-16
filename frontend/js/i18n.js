@@ -140,7 +140,9 @@ export const DICT = {
     slk_loaded: "Detector NISAR: {s} escenas y {n} zonas. Clic en un punto para ver los detalles y la escena.",
     guide_slicks: "🛢 Detector de manchas (NISAR): activa la capa en Capas. Cada punto es una zona donde el radar de banda L ve el mar alisado por una película viscosa (posible petróleo); el color indica la confianza. «Ver escena NISAR» superpone la imagen de radar con las zonas marcadas.",
     guide_sar: "📡 Radar SAR: elige «Superficie amortiguada», «Objetos brillantes» o «Viento medido por el radar» en Capas (mapas anuales 2017–2024), activa «Escenas de radar SAR del mes» para ver las imágenes de cada mes, o abre la fila «Radar SAR» de un área o la ventana de un evento.",
-    src_sar: "Radar SAR: Sentinel-1 (ESA/Copernicus), ALOS PALSAR (JAXA), UAVSAR y NISAR (NASA) vía NASA ASF DAAC.",
+    src_sar: "Radar SAR: Sentinel-1 (ESA/Copernicus; contains modified Copernicus Sentinel data 2017–2024, processed by ESA), ALOS PALSAR (© JAXA/METI), UAVSAR y NISAR (NASA, NASA-ISRO; datos provisionales) vía NASA ASF DAAC.",
+    ai_title: "Uso de IA", ai_note: "Se usó IA generativa (Claude Code) como herramienta para generar código y enlazar recursos. Todos los datos son mediciones reales de las fuentes citadas.",
+    credits_link: "Créditos completos y licencia (MIT) en el repositorio",
     // exportación
     export_excel: "Descargar Excel", exporting: "Generando Excel…", export_done: "Excel descargado", export_error: "No se pudo generar el Excel",
     report_area: "Informe del área", description: "Descripción",
@@ -284,7 +286,9 @@ export const DICT = {
     slk_loaded: "NISAR detector: {s} scenes and {n} areas. Click a dot for details and the scene.",
     guide_slicks: "🛢 Slick detector (NISAR): turn on the layer in Layers. Each dot is an area where the L-band radar sees the sea smoothed by a viscous film (possible oil); colour shows confidence. \"Show NISAR scene\" overlays the radar image with the areas marked.",
     guide_sar: "📡 SAR radar: pick \"Damped surface\", \"Bright targets\" or \"Radar-measured wind\" in Layers (annual maps 2017–2024), turn on \"SAR radar scenes of the month\" to see each month's images, or open the \"SAR radar\" row of an area or an event window.",
-    src_sar: "SAR radar: Sentinel-1 (ESA/Copernicus), ALOS PALSAR (JAXA), UAVSAR and NISAR (NASA) via NASA ASF DAAC.",
+    src_sar: "SAR radar: Sentinel-1 (ESA/Copernicus; contains modified Copernicus Sentinel data 2017–2024, processed by ESA), ALOS PALSAR (© JAXA/METI), UAVSAR and NISAR (NASA, NASA-ISRO; provisional data) via NASA ASF DAAC.",
+    ai_title: "AI usage", ai_note: "Generative AI (Claude Code) was used as a tool to generate code and link resources. All data are real measurements from the cited sources.",
+    credits_link: "Full credits and license (MIT) in the repository",
     export_excel: "Download Excel", exporting: "Building Excel…", export_done: "Excel downloaded", export_error: "Could not build the Excel file",
     report_area: "Area report", description: "Description",
     col_feature: "Feature", col_unit: "Unit", col_clim: "2003–2024 normal", col_prev: "Same month previous year",
@@ -303,6 +307,9 @@ export const DICT = {
 let lang = "es";
 try { lang = localStorage.getItem("golfo_lang") || (navigator.language || "es").slice(0, 2); } catch (_) { /* almacenamiento bloqueado */ }
 if (!DICT[lang]) lang = "es";
+// ?lang=en / ?lang=es en la URL fuerza el idioma (p. ej. el enlace para jueces en inglés)
+const langUrl = new URLSearchParams(location.search).get("lang");
+if (langUrl && DICT[langUrl]) lang = langUrl;
 
 export const getLang = () => lang;
 

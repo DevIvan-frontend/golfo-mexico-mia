@@ -1,5 +1,8 @@
 # Documentación técnica · Golfo de México · Observatorio MIA
 
+> **Uso de IA / AI usage:** Se usó IA generativa (Claude Code) como herramienta para generar código y enlazar
+> recursos. · Generative AI (Claude Code) was used as a tool to generate code and link resources.
+
 ## 1. Arquitectura
 
 ```
