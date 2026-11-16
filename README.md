@@ -114,8 +114,9 @@ python scripts/build_jupyterlite.py      # regenera notebooks/*.ipynb y jupyterl
 
 ## Publicar en Render (enlace fijo, gratis)
 1. https://render.com → *Sign up with GitHub*.
-2. *New → Blueprint* → elegir este repositorio → *Apply*. Render lee `render.yaml`: instala `requirements.txt`, genera
-   Jupyter en el navegador y arranca `uvicorn` (≈ 10 min la primera vez).
+2. *New → Blueprint* → elegir este repositorio → *Apply*. Render lee `render.yaml`: instala `requirements.txt` y
+   arranca `uvicorn` (≈ 10 min la primera vez). Jupyter en el navegador (`jupyterlite/`) ya va generado en el
+   repositorio; si cambias el cuaderno, regenéralo con `python scripts/build_jupyterlite.py` y súbelo.
 3. El enlace queda como `https://golfo-mexico-mia.onrender.com`. Cada `git push` a `main` vuelve a desplegar.
 - Plan gratuito: se duerme tras 15 min sin visitas; la siguiente visita tarda ~1 min. Usa ~200 MB de RAM (límite 512 MB).
 

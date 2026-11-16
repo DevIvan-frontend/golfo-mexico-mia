@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-11-16T02:46:18.577326Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-11-16T02:46:07.026898Z",
+      "mimetype": null,
+      "name": "Golfo_Mexico_MIA_en.ipynb",
+      "path": "Golfo_Mexico_MIA_en.ipynb",
+      "size": 58752,
+      "type": "notebook",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-11-16T02:46:18.582055Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-11-16T02:46:07.021840Z",
+      "mimetype": null,
+      "name": "Golfo_Mexico_MIA_es.ipynb",
+      "path": "Golfo_Mexico_MIA_es.ipynb",
+      "size": 59322,
+      "type": "notebook",
+      "writable": true
+    }
+  ],
+  "created": "2026-11-16T02:46:18.576299Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-11-16T02:46:18.582055Z",
+  "mimetype": null,
+  "name": "",
+  "path": "",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

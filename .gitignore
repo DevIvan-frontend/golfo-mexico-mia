@@ -7,5 +7,4 @@ data/*.sqlite
 notebooks/resultados/
 .jupyterlite.doit.*
 .earthdata_token
-# generado por scripts/build_jupyterlite.py
-jupyterlite/
+# jupyterlite/ (generado por scripts/build_jupyterlite.py) SÍ se sube: Render lo sirve tal cual en /jupyter

@@ -6,11 +6,9 @@ services:
     name: golfo-mexico-mia
     runtime: python
     plan: free
-    buildCommand: >-
-      pip install --upgrade pip &&
-      pip install -r requirements.txt &&
-      pip install "jupyterlite-core==0.6.*" "jupyterlite-pyodide-kernel==0.6.*" &&
-      (python scripts/build_jupyterlite.py || echo "JupyterLite omitido: la página funciona sin el cuaderno")
+    # jupyterlite/ (Jupyter en el navegador) ya viene generado en el repositorio: si cambias backend/notebook.py,
+    # ejecuta `python scripts/build_jupyterlite.py` en tu computadora y sube la carpeta.
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --no-server-header
     healthCheckPath: /api/health
     autoDeploy: true
